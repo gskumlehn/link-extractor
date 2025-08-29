@@ -1,4 +1,4 @@
-import fitz  # PyMuPDF
+import fitz
 
 def extrair_links_de_artigos(pdf_bytes):
     doc = fitz.open(stream=pdf_bytes, filetype="pdf")

@@ -16,12 +16,12 @@ def extrair_links_de_artigos(pdf_bytes):
 
             for l in links:
                 if "uri" in l and l["uri"] and fitz.Rect(b[:4]).intersects(fitz.Rect(l["from"])):
-                    if "link original" not in bloco_texto.lower():
+                    if "link original" not in bloco_texto.lower() and "original link" not in bloco_texto.lower():
                         titulo_temp = bloco_texto
                         link_titulo_temp = l["uri"]
                         break
 
-            if bloco_texto.lower() == "link original":
+            if bloco_texto.lower() in ["link original", "original link"]:
                 for l in links:
                     if "uri" in l and l["uri"] and fitz.Rect(b[:4]).intersects(fitz.Rect(l["from"])):
                         link_original_temp = l["uri"]
@@ -39,3 +39,7 @@ def extrair_links_de_artigos(pdf_bytes):
 
     doc.close()
     return artigos
+
+with open("arquivo.pdf", "rb") as f:
+    dados = f.read()
+    extrair_links_de_artigos(dados)

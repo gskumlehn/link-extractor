@@ -39,7 +39,3 @@ def extrair_links_de_artigos(pdf_bytes):
 
     doc.close()
     return artigos
-
-with open("arquivo.pdf", "rb") as f:
-    dados = f.read()
-    extrair_links_de_artigos(dados)

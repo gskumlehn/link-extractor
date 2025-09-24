@@ -1,12 +1,17 @@
 FROM python:3.11-slim
-ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PORT=8080
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PORT=8080
+
 WORKDIR /app
 
-COPY link-extractor/requirements.txt .
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY link-extractor/server.py .
-COPY link-extractor/static ./static
+COPY server.py .
+COPY main.py .
+COPY static ./static
 
 EXPOSE 8080
-CMD ["gunicorn","-b","0.0.0.0:${PORT}","-w","2","--threads","8","server:app"]
+CMD ["sh","-c","gunicorn -b 0.0.0.0:${PORT:-8080} -w ${GUNICORN_WORKERS:-2} --threads ${GUNICORN_THREADS:-8} server:app"]
